@@ -1,25 +1,22 @@
 (defparameter *nodes* '(
-    (living-room (you are in the living room.
-    a wizard is snoring loudly on the couch.))
-    (garden (you are in the beautiful garden.
-    there is a well in front of you.))
-    (attic (you are in the attic.
-    there is a giant welding torch in the corner.))
+    (living (here is a wizard.))
+    (garden (here is a well.))
+    (attic  (here is a torch.))
 ))
 
 (defparameter *edges* `(
-    (living-room (garden west door)
-                 (attic upstairs ladder))
-    (garden (living-room east door))
-    (attic (living-room downstairs ladder))
+    (living (garden west door)
+            (attic  upstairs ladder))
+    (garden (living east door))
+    (attic  (living downstairs ladder))
 ))
 
 (defparameter *objects* '(whiskey bucket frog chain))
 (defparameter *objects-location* '(
-    (whiskey living-room)
-    (bucket living-room)
-    (chain garden)
-    (frog garden)
+    (whiskey living)
+    (bucket  living)
+    (chain   garden)
+    (frog    garden)
 ))
 
 (defun describe-location (location nodes)

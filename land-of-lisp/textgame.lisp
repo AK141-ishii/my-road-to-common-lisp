@@ -1,12 +1,12 @@
 ;; Global variables
 
-(defparameter *nodes* '(
+(defparameter *wiz-nodes* '(
     (living (You are in the living. here is a wizard.))
     (garden (You are in the garden. here is a well.))
     (attic  (You are in the attic. here is a torch.))
 ))
 
-(defparameter *edges* `((living (garden west door)
+(defparameter *wiz-edges* `((living (garden west door)
                                 (attic  upstairs ladder))
                         (garden (living east door))
                         (attic  (living downstairs ladder))))
@@ -50,14 +50,14 @@
 ;; Action commands
 
 (defun look()
-    (append (describeLocation *location* *nodes*)
-            (describePaths *location* *edges*)
+    (append (describeLocation *location* *wiz-nodes*)
+            (describePaths *location* *wiz-edges*)
             (describeObjects *location* *objects* *objects-location*)))
 
 (defun walk(direction)
 (let 
     ((next (find direction
-                 (cdr (assoc *location* *edges*))
+                 (cdr (assoc *location* *wiz-edges*))
                  :key #'cadr)))
     (if next
         (progn (setf *location* (car next))

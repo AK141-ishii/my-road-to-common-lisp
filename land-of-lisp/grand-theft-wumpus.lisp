@@ -24,6 +24,14 @@
   (apply #'append (loop repeat *edge-nums*
                         collect (edge-pair (random-node) (random-node)))))
 
+(defun hash-edges (edge-list)
+  (let ((tab (make-hash-table)))
+    (mapc (lambda (x)
+            (let ((node (car x)))
+              (push (cdr x) (gethash node tab))))
+          edge-list)
+    tab))
+
 ;; ACCESS TO NEIGHBORS
 
 (defun neighbors (node edge-alist)
@@ -55,6 +63,19 @@
                                (direct-edges node edge-list)))))
       (traverse node))
     visited))
+
+(defun get-connected-hash (node edge-tab)
+  (let ((visited (make-hash-table)))
+    (labels ((traverse (node)
+                       (unless (gethash node visited)
+                         (setf (gethash node visited) t)
+                         (mapc (lambda (edge)
+                                 (traverse edge))
+                               (gethash node edge-tab)))))
+      (traverse node))
+    visited))
+
+
 
 (defun find-islands (nodes edge-list)
   (let ((islands nil))
@@ -210,10 +231,21 @@
   (handle-direction pos t))
 
 
+(setf *edge-nums* 1000)
+(setf *node-num* 1000)
+
+; slow version (using alist)
+(print (time (dotimes (i 100) (get-connected 1 (make-edge-list)))))
+
+
+; quick version (using hash)
+(print(time (dotimes (i 100)
+        (get-connected-hash 1 (hash-edges (make-edge-list))))))
+
+;(new-game)
 
 
 
-(new-game)
 
 
 

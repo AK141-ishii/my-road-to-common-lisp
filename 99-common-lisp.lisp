@@ -97,27 +97,44 @@
 ;  9
 (defun my-pack-dup (lst)
   (if lst
-    (labels ((inner (acc xs ret)
-                    (cond ((null xs) (reverse (cons acc ret)))
-                          ((equal (car acc) (car xs)) (inner (cons (car xs) acc) (cdr xs) ret))
-                          (t (inner (cons (car xs) nil) (cdr xs) (cons acc ret))))))
-      (inner (list (car lst)) (cdr lst) (list)))
-  NIL))
+    (reverse (reduce (lambda (prev next)
+                       (if (equal (caar prev) next)
+                         (cons (cons next (car prev)) (cdr prev))
+                         (cons (list next) prev)))
+                     (cdr lst)
+                     :initial-value (list (list(car lst)))))
+  '()))
 
 ;(print (my-pack-dup '(a a a a b c c a a d e e e e)))
 ;(print (my-pack-dup '(a a a a)))
 ;(print (my-pack-dup '(1 2 2 1 1 2)))
 ;(print (my-pack-dup '()))
 
-
 ;  10
 (defun my-encode (lst)
+  (if lst
+    (reverse (reduce (lambda (prev next)
+                       (if (equal (caar prev) next)
+                         (cons (list (caar prev) (incf (cadar prev))) (cdr prev))
+                         (cons (list next 1) prev)))
+                     (cdr lst)
+                     :initial-value (list (list (car lst) 1))))
+    '()))
 
 ;(print (my-encode '(a a a a b c c a a d e e e e)))
 ;(print (my-encode '(a a a a)))
 ;(print (my-encode '(1 2 2 1 1 2)))
 ;(print (my-encode '()))
 
+;  11
+
+(defun my-encode-modified (lst)
+
+
+;(print (my-encode-modified '(a a a a b c c a a d e e e e)))
+;(print (my-encode-modified '(a a a a)))
+;(print (my-encode-modified '(1 2 2 1 1 2)))
+;(print (my-encode-modified '()))
 
 
 

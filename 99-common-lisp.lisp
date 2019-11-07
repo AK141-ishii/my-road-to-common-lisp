@@ -41,6 +41,10 @@
 (defun my-num-of-list (li) 
   (my-numlist li 0))
 
+;(print (my-num-of-list '(5 4 3 2 1)))
+;(print (my-num-of-list '(1 2 3 4 5 6 7 8 9 10)))
+;(print (my-num-of-list '()))
+
 ;  5
 (defun my-rev-list (li)
   (cons (cdr li)))
@@ -77,9 +81,42 @@
 ;(print (my-flatten '(1 (((2) (3)) (4 5)))))
 ;(print (my-flatten '()))
 
+;  8
+(defun my-elm-dup (lst)
+  (reduce #'append (maplist (lambda (li)
+                              (if (eq (car li) (cadr li))
+                                nil
+                                (list (car li))))
+                            lst)))
+
+;(print (my-elm-dup '(a a a a b c c a a d e e e e)))
+;(print (my-elm-dup '(a a a a)))
+;(print (my-elm-dup '(1 2 2 1 1 2)))
+;(print (my-elm-dup '()))
+
+;  9
+(defun my-pack-dup (lst)
+  (if lst
+    (labels ((inner (acc xs ret)
+                    (cond ((null xs) (reverse (cons acc ret)))
+                          ((equal (car acc) (car xs)) (inner (cons (car xs) acc) (cdr xs) ret))
+                          (t (inner (cons (car xs) nil) (cdr xs) (cons acc ret))))))
+      (inner (list (car lst)) (cdr lst) (list)))
+  NIL))
+
+;(print (my-pack-dup '(a a a a b c c a a d e e e e)))
+;(print (my-pack-dup '(a a a a)))
+;(print (my-pack-dup '(1 2 2 1 1 2)))
+;(print (my-pack-dup '()))
 
 
+;  10
+(defun my-encode (lst)
 
+;(print (my-encode '(a a a a b c c a a d e e e e)))
+;(print (my-encode '(a a a a)))
+;(print (my-encode '(1 2 2 1 1 2)))
+;(print (my-encode '()))
 
 
 

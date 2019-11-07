@@ -108,6 +108,21 @@
 (defmethod add ((a list) (b list))
   (append a b))
 
+;; ########################################
+;; LOOP
+;; ########################################
+(defun my-loops ()
+  (progn
+    (print (loop for i below 5 sum i))
+    (print (loop for i from 5 to 10 sum i))
+    (print (loop for i in '(100 20 3) sum i))
+    (loop for i below 5 do (print i))
+    (print (loop for i below 10 when (oddp i) sum i))
+    (print (loop for i from 0 do (print i) when (= i 5) return 'BOMB))
+    (print (loop for i in '(1 2 3 4 5 6) collect (* i i)))
+    (print (loop for x below 10 for y below 10 collect(+ x y)))
+    (print (loop for i from 0 for day in '(MON TUE WED THU FRI SAT SUN) collect(cons i day)))
+    ))
 
-
+(my-loops)
 

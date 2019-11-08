@@ -154,6 +154,75 @@
           )
   )
 
+;; ########################################
+;; STREAM
+;; ########################################
+
+; stdio
+(defun my-iostream ()
+  (output-stream-p *standard-output*)
+  (write-char #\x *standard-output*)
+  (input-stream-p *standard-input*)
+  (read-char *standard-input*))
+
+; file stream
+(defun my-fstream ()
+  (with-open-file (my-stream "test.data.txt"
+                             :direction :output)
+    (print "my data" my-stream))
+  (let ((animal-noises '((dog . woof)
+                         (cat . meow))))
+    (with-open-file (my-stream "test.map.txt"
+                               :direction :output) 
+      (print animal-noises my-stream))
+    (with-open-file (my-stream "test.map.txt"
+                               :direction :input)
+      (read my-stream)))
+  (with-open-file (my-stream "test.data.txt" 
+                             :direction :output
+                             :if-exists :error ))
+  (with-open-file (my-stream "test.data.txt"
+                             :direction :output
+                             :if-exists :supersede)
+    (print "my override data" my-stream)))
+
+; socket
+(defun my-socket ()
+  ;; CONNECT
+  ; ON THE SERVER
+  (defparameter my-socket (socket-server 4321))
+  (defparameter my-stream (socket-accept my-socket))
+  ; ON THE CLIENT
+  (defparameter my-stream (socket-connect 4321 "127.0.0.1"))
+  ;; TALK
+  (read my-stream)
+  (write "message here." my-stream)
+  ;; CLOSE
+  ; ON THE SERVER and CLIENT
+  (close my-stream)
+  ; ON THE SERVER
+  (socket-server-close my-socket))
+
+; string
+(defun my-sstream ()
+  (let ((foo (make-string-output-stream)))
+    (princ "this is go into foo." foo)
+    (princ "this 2." foo)
+    (get-output-stream-string foo)
+    )
+  (with-output-to-string (*standard-output*)
+    (princ "The sum of")
+    (princ 5)
+    (princ " and ")
+    (princ 2)
+    (princ " is ")
+    (princ (+ 2 5))
+    )
+  )
+(my-sstream)
+
+
+
 
 
 

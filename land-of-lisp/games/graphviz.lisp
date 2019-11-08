@@ -92,16 +92,3 @@
                              (b (a east door))
                              (c (a downstairs ladder))))
 
-
-
-
-
-
-
-
-
-
-
-
-
-

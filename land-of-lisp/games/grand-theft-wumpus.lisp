@@ -157,7 +157,7 @@
       x)))
 
 (defun draw-city ()
-  (ugraph->png "city" *congestion-city-nodes* *congestion-city-edges*))
+  (ugraph->png "test.city" *congestion-city-nodes* *congestion-city-edges*))
 
 (defun known-city-nodes ()
   (mapcar (lambda (node)
@@ -185,7 +185,7 @@
           *visited-nodes*))
 
 (defun draw-known-city ()
-  (ugraph->png "known-city" (known-city-nodes) (known-city-edges)))
+  (ugraph->png "test.known-city" (known-city-nodes) (known-city-edges)))
 
 
 (defun new-game ()
@@ -243,10 +243,6 @@
         (get-connected-hash 1 (hash-edges (make-edge-list))))))
 
 ;(new-game)
-
-
-
-
 
 
 

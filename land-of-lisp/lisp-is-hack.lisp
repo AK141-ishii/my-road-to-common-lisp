@@ -115,27 +115,44 @@
 (defun my-format-table ()
   (labels ((random-animals ()
              (nth (random 5)
-                  '("dog" "tick" "tiger" "walrus" "kangaroo")
-                  )
-             ))
+                  '("dog" "tick" "tiger" "walrus" "kangaroo"))))
     (loop repeat 10
           do (format t "~5t~a ~15t~a ~25t~a~%"
                (random-animals)
                (random-animals)
-               (random-animals)
-               )
-          )
+               (random-animals)))
     (loop repeat 10
-          do (format t "~30<~a~;~a~;~a~;~%"
+          do (format t "~30<~a~;~a~;~a~>~%"
                (random-animals)
                (random-animals)
+               (random-animals)))
+    
+    (loop repeat 10
+          do (format t "~30:@<~a~>~%"
+               (random-animals)))
+    (loop repeat 10
+          do (format t "~10:@<~a~>~10:@<~a~>~10:@<~a~>~%"
                (random-animals)
-               )
-          )
+               (random-animals)
+               (random-animals)))
+    ))
+
+(defun my-format-loop ()
+  (labels ((random-animals ()
+             (nth (random 5) 
+                  '("dog" "tick" "tiger" "walrus" "kangaroo"))))
+    (let ((animals (loop repeat 10 collect (random-animals))))
+      animals
+      (format t "~{I see a ~a and ~a! ~}" animals)
+      )
     )
   )
 
-(my-format-table)
+(defun my-format-crazy ()
+  (format t "|~{~<|~%|~,33:;~2d ~>~}|"
+          (loop for x below 100 collect x)
+          )
+  )
 
 
 

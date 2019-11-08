@@ -124,5 +124,100 @@
     (print (loop for i from 0 for day in '(MON TUE WED THU FRI SAT SUN) collect(cons i day)))
     ))
 
-(my-loops)
+;; ########################################
+;; FORMAT
+;; ########################################
+(defun my-format-str ()
+  (format 
+    t 
+    "only ~$ dollars more! > console. | "
+    1.5) 
+  (format 
+    nil 
+    "only ~$ dollars more! > string. | " 
+    1.5)
+  (format
+    t
+    "I'm printing ~s in this sentence. | "
+    "foo")
+  (format
+    t
+    "I'm printing ~a in this. | "
+    "foo")
+  (format
+    t
+    "width of 10 (left) :~10a:"
+    "foo"
+    )
+  (format
+    t
+    "width of 10 (right) :~10@a:"
+    "foo"
+    )
+  (format
+    t
+    "padding with ! :~,,4,'!a:"
+    "foo"
+    )
+  )
+
+(defun my-format-dec ()
+  (format
+    t
+    "~d is "
+    1000
+    )
+  (format
+    t
+    "~x in hex, "
+    1000
+    )
+  (format
+    t
+    "~b in bin. ~&"
+    1000
+    )
+  (format
+    t
+    "1000000 is ~:d in grouped, "
+    1000000
+    )
+  (format
+    t
+    "~10d in 10width, "
+    1000000
+    )
+  (format
+    t
+    "~10,'xd in padded."
+    1000000
+    )
+  )
+
+(defun my-format-float ()
+  (format
+    t
+    "PI is ~4f in 4width ~&"
+    pi
+    )
+  (format
+    t
+    "PI is ~,4f in 4width after the decimal point ~&"
+    pi
+    )
+  (format
+    t
+    "PI is ~8,,4f when multiplied with E4 ~&"
+    pi
+    )
+  (format
+    t
+    "PI is ~$ as price. ~&"
+    pi
+    )
+  )
+
+
+
+
 

@@ -108,3 +108,23 @@
 (defmethod add ((a list) (b list))
   (append a b))
 
+;; ########################################
+;; # ERROR HANDLING
+;; ########################################
+(define-condition foo () ()
+  (:report (lambda (condition stream)
+             (princ "Stop FOOing" stream))))
+(defun my-error ()
+  (error 'foo))
+(defun my-handler ()
+  (handler-case (my-error)
+    (foo () "somebody signaled foo!")
+    (bar () "somebody signaled bar!")))
+(unwind-protect (/ 1 0)
+  (princ "MY LAST MESSAGE"))
+   
+;; ########################################
+;; # Util
+;; ########################################
+
+(cons (intern "ToBeSymbol") "JustString")

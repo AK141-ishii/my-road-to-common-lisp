@@ -1,6 +1,4 @@
-; #########################################################################
-; - ORK BATTLE GAME -
-;  You are a knight battling against 12 enemies like ork, hiddra...
+; ######################################################################### ; - ORK BATTLE GAME - ;  You are a knight battling against 12 enemies like ork, hiddra...
 ;  Let's survive this situation using OBJECT System of defmethod/defstruct.
 ; #########################################################################
 

@@ -57,3 +57,23 @@
                  acc)))
     (f lst 0)))
 (my-clever-length *biglist*) ; -> quick !
+
+; ########################################
+; Macro
+; ########################################
+
+(defmacro let1 (var val &body body)
+  `(let ((,var ,val))
+     ,@body))
+(let1 foo (+ 2 3)
+  (* foo foo))
+(defun add (a b)
+  (let1 x (+ a b)
+    (format t "The sum is ~a" x)
+    x))
+(macroexpand '(let1 foo (+ 2 3)
+                (* foo foo)))
+
+
+
+

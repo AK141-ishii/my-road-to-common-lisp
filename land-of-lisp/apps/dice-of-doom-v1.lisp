@@ -207,7 +207,7 @@
         ((zerop (car tree)) (play-vs-computer (handle-human tree)))
         (t (play-vs-computer (handle-computer tree)))))
 
-(play-vs-computer (game-tree (gen-board) 0 0 t))
+;(play-vs-computer (game-tree (gen-board) 0 0 t))
 
 
 

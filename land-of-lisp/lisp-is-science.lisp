@@ -23,14 +23,14 @@
 
 ; Closure / Lexical
 (defparameter *newfoo* (lambda () (let ((x 5)) x)))
-(funcall *newfoo*) ; 5 (x is alive)
+;(funcall *newfoo*) ; 5 (x is alive)
 (let ((line-number 0))
   (defun my-print (x)
     (print line-number)
     (print x)
     (incf line-number)
     nil))
-(my-print "this") ; line-number will increase
+;(my-print "this") ; line-number will increase
 
 ; Memo
 ;  Once called, it will store the relationships between args->results.
@@ -184,9 +184,6 @@
           lst
           :initial-value 0))
 
-; ########################################
-; DSL : Domain Specific Language
-; ########################################
 
 
 

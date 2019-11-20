@@ -176,8 +176,6 @@
                        (cdr lst)
                        :initial-value (list (car lst))))
       nil))
-
-
 (my-encode-modified '(a a a a b c c a a d e e e e)) ; ((4 A) B (2 C) ...
 (my-encode-modified '(a a a a e))
 (my-encode-modified '(1 2 2 1 1 2))
@@ -223,7 +221,6 @@
                                            (f (cons elm st) elm (1- cnt)))))
                               (f (list) elm cnt)))
                           lst)))
-
 (my-repli '(a b c) 3) ;(A A A B B B C C C)
 (my-repli '(1 2 3) 4) ;(1 1 1 1 2 2 2 2 3 3 3 3)
 
@@ -236,9 +233,6 @@
                      (f out (1- cnt) (cdr st))
                      (f (cons (car st) out) (1- cur-cnt) (cdr st))))))
     (reverse (f (list) (1- cnt) lst))))
-
-
-
 (my-drop '(a b c d e f g h i k) 3) ;(A B D E G H K)
 (my-drop '(1 2 3 4 5 6 7 8 9 0) 3) ;(1 2 4 5 7 8 0)
 (my-drop '(a b c d e f g h i k) 2) ;(A C E G I)
@@ -288,17 +282,97 @@
 (my-rotate '(a b c d e f g h) -2) ;(G H A B C D E F)
 
 ;  20
-(defun my-remove-at (lst plc))
+(defun my-remove-at (lst plc)
+  (labels ((f (acc cnt lst)
+             (if (zerop cnt)
+                 (apply #'append (reverse acc) (cdr lst) (list))
+                 (f (cons (car lst) acc) (1- cnt) (cdr lst)))))
+    (f (list) (1- plc) lst)))
 
 (my-remove-at '(a b c d) 2) ;(A C D)
+(my-remove-at '(a b c d e f g h) 3) ;(A B D E F G H)
+
+;  21
+(defun my-insert-at (sym lst plc)
+  (labels ((f (acc cnt lst)
+             (if (zerop cnt)
+                 (apply #'append (reverse acc) (list sym) lst (list))
+                 (f (cons (car lst) acc) (1- cnt) (cdr lst)))))
+    (f (list) (1- plc) lst)))
 
 
+(my-insert-at 'alfa '(a b c d) 2) ;(A ALFA B C D)
+(my-insert-at 'alfa '(1 2 3 4) 2) ;(1 ALFA 2 3 4)
+(my-insert-at 'alfa '(a b c d e f) 1) ;(ALFA A B C D E F)
+
+;  22
+(defun my-range (stt end)
+  (labels ((f (acc cur)
+             (if (= cur end)
+                 (reverse (cons cur acc))
+                 (f (cons cur acc) (1+ cur)))))
+    (f (list) stt)))
+(my-range 4 9) ;(4 5 6 7 8 9)
+(my-range 1 2) ;(1 2)
+(my-range 10 20) ;(10 ... 20)
+
+;  23
+(defun my-rnd-select (lst cnt)
+  (labels ((f (acc lst cnt)
+             (if (zerop cnt)
+                 (reverse acc)
+                 (let ((tar (random (length lst))))
+                   (f (cons (nth tar lst) acc) (my-remove-at lst (1+ tar)) (1- cnt))))))
+    
+    (f (list) lst cnt))) 
+(my-rnd-select '(a b c a e d c h) 3) ;(E D A) etc...
+(my-rnd-select '(a a a a a a a) 3) ;(A A A)
+
+;  24
+(defun my-lotto-select (cnt mx)
+  (my-rnd-select (my-range 1 mx) cnt))
+(my-lotto-select 6 49) ; (23 1 17 33 21 37) etc...
+(my-lotto-select 6 6) ; (1 2 3 4 5 6) shuffled
 
 
+;  25
+(defun my-rnd-permu (lst)
+  (let ((keys (my-lotto-select (length lst) (length lst))))
+    (apply #'append (mapcar (lambda (key)
+                              (list (nth (1- key) lst)))
+                            keys))))
 
+(my-rnd-permu '(a b c d e f)) ;(B A D C E F) etc...
 
+;  26
+(defun my-combination (n lst)
+  (if (or (zerop n) (> n (length lst)))
+      (list (list))
+      (remove-if #'(lambda (lst) (< (length lst) n))
+        (append 
+          (append (mapcar (lambda (elm)
+                     (append (list (car lst)) elm))
+                    (my-combination (1- n) (cdr lst))))
+          (my-combination n (cdr lst)))))) 
 
+(my-combination 3 '(a b c)) ; ((A B C))
+(my-combination 3 '(a b c d)) ; ((A B C) (A B D) ... )
+(my-combination 3 '(a b c d e f)) ; ((A B C) (A B D) (A B E) ... )
 
+;  27 (a) length is fixed to be 9 & split into 2,3,4
+(defun my-group3 (lst)
+  (append
+    (mapcar (lambda (elm)
+              (mapcar )
+              
+              )
+            (my-combination 2 lst)
+            )
+    )
+  
+  )
+
+(my-group3 '(a b c d e f g h i)) ;(((A B) (C D E) (F G H I)) ... )
 
 
 

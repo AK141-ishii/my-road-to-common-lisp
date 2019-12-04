@@ -323,7 +323,6 @@
                  (reverse acc)
                  (let ((tar (random (length lst))))
                    (f (cons (nth tar lst) acc) (my-remove-at lst (1+ tar)) (1- cnt))))))
-    
     (f (list) lst cnt))) 
 (my-rnd-select '(a b c a e d c h) 3) ;(E D A) etc...
 (my-rnd-select '(a a a a a a a) 3) ;(A A A)
@@ -359,20 +358,39 @@
 (my-combination 3 '(a b c d)) ; ((A B C) (A B D) ... )
 (my-combination 3 '(a b c d e f)) ; ((A B C) (A B D) (A B E) ... )
 
-;  27 (a) length is fixed to be 9 & split into 2,3,4
-(defun my-group3 (lst)
-  (append
-    (mapcar (lambda (elm)
-              (mapcar )
-              
-              )
-            (my-combination 2 lst)
-            )
-    )
-  
-  )
+;  27 (a) length is fixed to be 9 & split into a,b,c
 
-(my-group3 '(a b c d e f g h i)) ;(((A B) (C D E) (F G H I)) ... )
+(defun (my-tmp (lst num)
+  (labels ((f (pos neg lst num)
+             (if (zerop num)
+                 (if (null lst)
+                     (list (cons (list(reverse pos))  (reverse neg)))
+                     (f pos (cons (car lst) neg) (cdr lst) num))
+                 (if (null lst)
+                     (list)
+                     (append
+                       (f pos (cons (car lst) neg) (cdr lst) num)
+                       (f (cons (car lst) pos) neg (cdr lst) (1- num)))))))
+    (f (list) (list) lst num))))
+
+
+(mapcar (lambda (x)
+          (apply #'append 
+                 (mapcar
+                 (lambda (y)
+                    (cons
+                      (append (car x) (car y))
+                      (cdr y)))
+                  (my-tmp (cdr x) 2)  
+                   )
+                 ))
+        (my-tmp '(a b c d e) 2))
+
+; pos (in), neg (out)
+; ((pos).(neg)) ((pos).(neg))
+
+(my-tmp '(a b c d e) 3)
+(my-group '(a b c d e f g h i) '(2 3 4)) ;(((A B) (C D E) (F G H I)) ... )
 
 
 

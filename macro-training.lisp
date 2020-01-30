@@ -81,3 +81,78 @@
 ;            ))
 ;  )
 
+; ########## MACRO EXCERCISE ###########
+
+; #1 When
+;(my-when c (&body body)) ->
+;(if c
+;    (&body)
+;    nil)
+
+;(my-when t
+;  (print 1)
+;  (print 1))
+(dm my-when (c &body body)
+    `(if ,c
+         (progn ,@body)
+         nil))
+
+
+; #2 Progn
+;(my-progn (&body body))
+;(funcall (lambda () body))
+
+;(progn
+;  (print 1)
+;  (print 1))
+(dm my-progn (&body body)
+          `(funcall (lambda () ,@body)))
+
+
+; #3 Cond
+;(my-cond (&body body)) ->
+;(if (car b1) (cdr b1)
+;    (if (car b2) (cdr b2)... nil))
+(dm my-cond (&body body)
+         (reduce
+           (lambda (prev nxt)
+                   `(if ,(car nxt)
+                        (progn ,@(cdr nxt))
+                        ,prev))
+           (reverse body)
+           :initial-value `()))
+
+
+; #4 Let
+; (my-let (bindings &body body))
+; (funcall #'(lambda (b1 b2)
+;              ,@body)
+;   b1
+;   b2)
+
+;test
+;(my-let ((x 1)
+;         (y 2))
+;  (+ x y))
+(dm my-let (bindings &body body)
+  `(funcall #'(lambda 
+              ,(mapcar
+                 (lambda (c)
+                   (car c))
+                 bindings)
+              ,@body)
+    ,@(mapcar
+       (lambda (bind)
+         `(progn ,@(cdr bind)))
+       bindings)))
+
+  
+
+
+
+    
+
+
+
+
+
